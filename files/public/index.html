@@ -10,16 +10,17 @@
 <body>
 
     <!-- Navigation Bar -->
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="signup.html">Sign Up</a></li>
-        </ul>
-        <div class="icon">
-            <i class="fas fa-snowflake"></i>
-        </div>
-    </nav>
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="signup.html">Sign Up</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li> <!-- New logout -->
+    </ul>
+    <div class="icon">
+        <i class="fas fa-snowflake"></i>
+    </div>
+</nav>
 
     <!-- Home Section -->
     <section class="intro">
@@ -38,5 +39,19 @@
     </footer>
 
     <script src="js/modal.js"></script>
+    <script>
+    const logoutBtn = document.getElementById("logoutBtn");
+    logoutBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        try {
+            const res = await fetch("/logout");
+            if (res.redirected) {
+                window.location.href = res.url;
+            }
+        } catch (err) {
+            console.error("Logout failed", err);
+        }
+    });
+    </script>
 </body>
 </html>
