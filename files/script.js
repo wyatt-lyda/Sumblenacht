@@ -94,7 +94,14 @@ app.get("/logout", (req, res) => {
 app.get("/home", requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
-
+// Redirect root to home
+app.get("/", (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/home");
+    } else {
+        res.redirect("/login.html");
+    }
+});
 // Start server
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
