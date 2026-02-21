@@ -14,90 +14,114 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.use(
-    session({
-        secret: "supersecretkey",
-        resave: false,
-        saveUninitialized: false,
-    })
+  session({
+    secret: "supersecretkey",
+    resave: false,
+    saveUninitialized: false,
+  })
 );
 
 // Database setup
 const db = new sqlite3.Database("./users.db");
 
-// Load schema if exists
-if (fs.existsSync("./schema.sql")) {
-    const schema = fs.readFileSync("./schema.sql", "utf8");
-    db.exec(schema);
-}
+// Load schema
+const schema = fs.readFileSync("./schema.sql", "utf8");
+db.exec(schema);
 
 // 🔐 Middleware to protect routes
 function requireAuth(req, res, next) {
-    if (!req.session.userId) {
-        return res.redirect("/login.html");
-    }
-    next();
+  if (!req.session.userId) {
+    return res.redirect("/login.html");
+  }
+  next();
 }
 
 // ================= ROUTES =================
 
 // Signup
 app.post("/signup", async (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password) return res.json({ success: false, message: "Missing fields" });
+  const { username, email, password } = req.body;
 
-    const hash = await bcrypt.hash(password, 10);
+  if (!username || !email || !password) {
+    return res.json({ success: false, message: "Missing fields" });
+  }
 
-    db.run("INSERT INTO users (email, password) VALUES (?, ?)", [email, hash], function (err) {
-        if (err) return res.json({ success: false, message: "User already exists" });
-        req.session.userId = this.lastID;
-        res.json({ success: true });
-    });
+  const hash = await bcrypt.hash(password, 10);
+
+  db.run(
+    "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+    [username, email, hash],
+    function (err) {
+      if (err) {
+        return res.json({ success: false, message: "User already exists" });
+      }
+      req.session.userId = this.lastID;
+      res.json({ success: true });
+    }
+  );
 });
 
 // Login
 app.post("/login", (req, res) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    db.get("SELECT * FROM users WHERE email = ?", [email], async (err, user) => {
-        if (err) return res.json({ success: false, message: "Database error" });
-        if (!user) return res.json({ success: false, message: "Email not found" });
+  db.get(
+    "SELECT * FROM users WHERE email = ?",
+    [email],
+    async (err, user) => {
+      if (!user) return res.json({ success: false, message: "Invalid email or password" });
 
-        const match = await bcrypt.compare(password, user.password);
-        if (match) {
-            req.session.userId = user.id;
-            res.json({ success: true });
-        } else {
-            res.json({ success: false, message: "Incorrect password" });
-        }
-    });
+      const match = await bcrypt.compare(password, user.password);
+
+      if (match) {
+        req.session.userId = user.id;
+        res.json({ success: true });
+      } else {
+        res.json({ success: false, message: "Invalid email or password" });
+      }
+    }
+  );
 });
 
 // Logout
 app.get("/logout", (req, res) => {
-    req.session.destroy(() => {
-        res.redirect("/login.html");
-    });
+  req.session.destroy(() => {
+    res.redirect("/login.html");
+  });
 });
 
-// Protected home
-app.get("/", requireAuth, (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
+// Protected Home Route
 app.get("/home", requireAuth, (req, res) => {
-    res.redirect("/");
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Redirect /login and /signup if already logged in
-app.get("/login", (req, res) => {
-    if (req.session.userId) return res.redirect("/");
-    res.sendFile(path.join(__dirname, "public", "login.html"));
+// Redirect root
+app.get("/", (req, res) => {
+  if (req.session.userId) {
+    res.redirect("/home");
+  } else {
+    res.redirect("/login.html");
+  }
 });
 
-app.get("/signup", (req, res) => {
-    if (req.session.userId) return res.redirect("/");
-    res.sendFile(path.join(__dirname, "public", "signup.html"));
+// Redirect /login -> login.html
+app.get("/login", (req, res) => res.redirect("/login.html"));
+app.get("/signup", (req, res) => res.redirect("/signup.html"));
+
+// ✅ New route to get username for navbar
+app.get("/username", (req, res) => {
+  if (!req.session.userId) return res.json({});
+  db.get(
+    "SELECT username FROM users WHERE id = ?",
+    [req.session.userId],
+    (err, row) => {
+      if (err || !row) return res.json({});
+      res.json({ username: row.username });
+    }
+  );
 });
 
 // Start server
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

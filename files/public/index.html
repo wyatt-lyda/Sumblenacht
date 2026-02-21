@@ -1,70 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winter Holiday Home</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://kit.fontawesome.com/df76b9cef2.js" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+<title>Winter Holiday Home</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://kit.fontawesome.com/df76b9cef2.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
+<!-- Navigation Bar -->
 <nav>
     <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="signup.html">Sign Up</a></li>
-        <li><a href="#" id="logoutBtn">Logout</a></li> <!-- New logout -->
+        <li><a href="login.html" class="login-link">Login</a></li>
+        <li><a href="signup.html" class="signup-link">Sign Up</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="merchandise.html">Merchandise</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
     </ul>
-    <div class="icon">
-        <i class="fas fa-snowflake"></i>
-    </div>
+    <div class="icon" id="welcomeUser"><i class="fas fa-snowflake"></i></div>
 </nav>
 
-    <!-- Home Section -->
-    <section class="intro">
+<!-- Home Section -->
+<section class="intro">
 
     <!-- Carousel -->
+<div class="carousel-wrapper">
     <div class="carousel-container">
-        <div class="carousel-slide fade">
-            <img src="img/mountain1.jpeg" alt="Snowy Mountain 1">
+        <div class="carousel-slide">
+            <img src="img/pond.png" alt="Pond">
         </div>
-        <div class="carousel-slide fade">
-            <img src="img/mountain2.jpeg" alt="Snowy Mountain 2">
+        <div class="carousel-slide">
+            <img src="img/fire.png" alt="Fireplace">
         </div>
-        <div class="carousel-slide fade">
-            <img src="img/mountain3.jpeg" alt="Snowy Mountain 3">
+        <div class="carousel-slide">
+            <img src="img/tree.png" alt="christmas tree">
         </div>
-    </div>
+        <div class="carousel-slide">
+            <img src="img/calender.png" alt="Winter Calendar">
+        </div>
+        <div class="carousel-slide">
+            <img src="img/alaskab.JPG" alt="baked alaska">
+        </div>
+        <div class="carousel-slide">
+            <img src="img/bakeda.JPG" alt="baked alaska 2">
+        </div>
 
+        <!-- Navigation arrows -->
+        <a class="prev">&#10094;</a>
+        <a class="next">&#10095;</a>
+    </div>
+</div>
+
+    <!-- Description -->
     <div class="description">
-        <h1>Happy Winter Holidays!</h1>
-        <p>Welcome to our cozy winter website.</p>
+        <h1>Happy Sumblenacht!</h1>
+        <p>Welcome to a cozy winter website.</p>
     </div>
 </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>Connect with me:</p>
-        <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
-        <a href="#"><i class="fab fa-github"></i> GitHub</a>
-    </footer>
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <p>&copy; 2026 Sumblenacht. All rights reserved.</p>
+    <p>Connect with me:</p>
+    <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+    <a href="#"><i class="fab fa-github"></i> GitHub</a>
+</footer>
 
-    <script src="js/modal.js"></script>
-    <script>
-    const logoutBtn = document.getElementById("logoutBtn");
-    logoutBtn.addEventListener("click", async (e) => {
-        e.preventDefault();
-        try {
-            const res = await fetch("/logout");
-            if (res.redirected) {
-                window.location.href = res.url;
-            }
-        } catch (err) {
-            console.error("Logout failed", err);
-        }
-    });
-    </script>
+<!-- Snowflake Container -->
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❄</div>
+</div>
+
+<script src="js/home.js"></script>
 </body>
 </html>

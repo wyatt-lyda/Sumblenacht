@@ -1,160 +1,418 @@
-/* General reset */
-* {
+/* =============================
+   GENERAL STYLING
+============================= */
+body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'UnifrakturCook', cursive;
+    /* Vibrant winter gradient: deep blue -> medium icy blue -> bright sky blue */
+    background: linear-gradient(to bottom, #0d1b3f, #2a5caa, #a0d8ff);
+    color: #ffffff;
 }
 
-/* Body */
-body {
-    background: linear-gradient(to bottom, #cce0ff, #f0f8ff);
-    color: #0b3d91;
-    min-height: 100vh;
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
-/* Navigation Bar */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* =============================
+   NAVIGATION BAR
+============================= */
 nav {
+    background: linear-gradient(to right, #3a78b1, #5aa0d8); /* lighter winter blue gradient */
+    padding: 0 20px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: #0b3d91;
-    padding: 1rem 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    justify-content: space-between;
+    height: 60px;
+    box-sizing: border-box;
 }
 
 nav ul {
-    list-style: none;
     display: flex;
-    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-nav ul li a {
-    color: #fff;
+nav ul li {
+    margin-right: 25px;
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+}
+
+nav a {
+    color: #ffffff;
     text-decoration: none;
     font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s;
 }
 
-nav ul li a:hover {
-    color: #a8d0e6;
+nav a:hover {
+    color: #e0f0ff;
 }
 
-nav .icon i {
-    color: #fff;
-    font-size: 1.8rem;
+/* Welcome user text */
+nav .icon#welcomeUser {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
 }
 
-/* Home page */
+/* =============================
+   INTRO SECTION
+============================= */
 .intro {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column; /* stack carousel above text */
+    align-items: center;    /* center horizontally */
+    justify-content: center; /* center vertically */
     gap: 2rem;
-    padding: 4rem 2rem;
-}
-
-.intro img {
-    max-width: 400px;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.description {
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    padding: 4rem 2rem; /* extra top padding to move content down */
+    text-align: center;
+    min-height: 80vh; /* make section taller to help vertical centering */
 }
 
 .description h1 {
     font-size: 2.5rem;
+    color: #e0f0ff;
+    margin-bottom: 0.5rem;
 }
 
 .description p {
     font-size: 1.2rem;
+    max-width: 600px;
 }
 
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 200;
-    left: 0;
-    top: 0;
+/* =============================
+   CAROUSEL
+============================= */
+.carousel-wrapper {
+    display: flex;
+    justify-content: center; /* center carousel horizontally */
     width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(10, 20, 40, 0.8);
+    max-width: 700px; /* increase width if needed */
 }
 
-.modal-content {
-    margin: 10% auto;
-    display: block;
-    max-width: 80%;
+.carousel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
     border-radius: 12px;
-}
-
-.modal-close {
-    position: absolute;
-    top: 20px;
-    right: 40px;
-    color: #fff;
-    font-size: 2rem;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* Login/Signup forms */
-.login-container, .signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
 }
 
-form {
-    background-color: #e0f0ff;
-    padding: 3rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+.carousel-slide img {
+    width: 100%;
+    height: auto;       /* automatic height based on image aspect ratio */
+    max-height: 600px;  /* optional: limit very tall images */
+    object-fit: contain; /* fit entire image without cropping */
+    border-radius: 12px;
+}
+
+.carousel-slide {
+    display: none;
+}
+
+/* Arrows */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    padding: 12px;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    user-select: none;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.4);
+    transform: translateY(-50%);
+    transition: background 0.3s;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+/* =============================
+   LOGIN & SIGNUP PAGES
+============================= */
+.login-container,
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* More defined sunset/winter ombre for login/signup forms */
+    background: linear-gradient(to bottom, #0d1b3f, #2a5caa, #74b9ff);
+}
+
+.login-container form,
+.signup-container form {
+    background-color: rgba(30, 50, 90, 0.85);
+    padding: 2rem;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
-form input {
+.login-container input,
+.signup-container input {
     padding: 0.8rem 1rem;
     border-radius: 8px;
-    border: 1px solid #0b3d91;
-}
-
-form button {
-    padding: 0.8rem 1rem;
     border: none;
+    font-size: 1rem;
+}
+
+.login-container button,
+.signup-container button {
+    padding: 0.8rem 1rem;
     border-radius: 8px;
-    background-color: #0b3d91;
-    color: #fff;
+    border: none;
+    background-color: #3a78b1;
+    color: #ffffff;
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
+    transition: background 0.3s;
 }
 
-form button:hover {
-    background-color: #1a4d8f;
+.login-container button:hover,
+.signup-container button:hover {
+    background-color: #5aa0d8;
 }
 
-/* Footer */
+/* =============================
+   FOOTER
+============================= */
 footer {
-    background-color: #0b3d91;
-    color: #fff;
-    padding: 2rem;
+    background: linear-gradient(to right, #3a78b1, #5aa0d8);
+    padding: 1.5rem 2rem;
     text-align: center;
+    color: #ffffff;
+    margin-top: 2rem;
 }
 
 footer a {
-    color: #a8d0e6;
-    margin: 0 1rem;
-    text-decoration: none;
+    margin: 0 0.5rem;
+    color: #e0f0ff;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #d0e8ff;
+}
+footer .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+/* =============================
+   SNOWFLAKES
+============================= */
+.snowflakes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.snowflake {
+    position: absolute;
+    top: -10px;
+    color: #ffffff;
+    font-size: 1rem;
+    opacity: 0.8;
+    user-select: none;
+    animation-name: fall;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.snowflake:nth-child(1)  { left: 5%; animation-delay: 0s; animation-duration: 8s; font-size: 1rem; }
+.snowflake:nth-child(2)  { left: 15%; animation-delay: 2s; animation-duration: 12s; font-size: 0.8rem; }
+.snowflake:nth-child(3)  { left: 25%; animation-delay: 4s; animation-duration: 9s; font-size: 1.2rem; }
+.snowflake:nth-child(4)  { left: 35%; animation-delay: 1s; animation-duration: 11s; font-size: 1rem; }
+.snowflake:nth-child(5)  { left: 45%; animation-delay: 3s; animation-duration: 10s; font-size: 0.9rem; }
+.snowflake:nth-child(6)  { left: 55%; animation-delay: 2s; animation-duration: 12s; font-size: 1rem; }
+.snowflake:nth-child(7)  { left: 65%; animation-delay: 0s; animation-duration: 9s; font-size: 1.1rem; }
+.snowflake:nth-child(8)  { left: 75%; animation-delay: 4s; animation-duration: 13s; font-size: 0.8rem; }
+.snowflake:nth-child(9)  { left: 85%; animation-delay: 1s; animation-duration: 11s; font-size: 1rem; }
+.snowflake:nth-child(10) { left: 95%; animation-delay: 3s; animation-duration: 10s; font-size: 1rem; }
+
+@keyframes fall {
+    0% { transform: translateY(-10px) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* History Page - images on sides of text */
+.history-intro .history-wrapper {
+    display: flex;
+    align-items: flex-start; /* align images to top of text for better visual balance */
+    justify-content: center;
+    gap: 2.5rem; /* a bit more space between images and text */
+    flex-wrap: wrap; /* responsive wrap for small screens */
+    padding: 2rem 1rem;
+}
+
+.history-intro .history-wrapper .history-img {
+    width: 30%; /* make left image bigger */
+    max-width: 300px; /* prevent it from being too huge on large screens */
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.history-intro .history-wrapper .history-img.left {
+    flex-shrink: 0; /* ensure left image doesn't shrink too much */
+}
+
+.history-intro .history-wrapper .description {
+    flex: 1; /* description takes available space */
+    max-width: 600px;
+    text-align: center;
+}
+
+/* Optional: right image slightly smaller than left for balance */
+.history-intro .history-wrapper .history-img.right {
+    width: 25%;
+    max-width: 250px;
+    flex-shrink: 0;
+}
+.history-intro .description h1 {
+    font-size: 2rem; /* bigger than h2, smaller than default h1 */
+    color: #e0f0ff;  /* light wintery blue */
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.history-intro .description p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #f0f8ff; /* softer blue for text readability */
+}
+
+/* Responsive layout for mobile */
+@media (max-width: 768px) {
+    .history-intro .history-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .history-intro .history-wrapper .history-img {
+        width: 80%;
+        max-width: 300px;
+    }
+}
+/* =============================
+   MERCHANDISE PAGE
+============================= */
+.merch-section {
+    text-align: center;
+    padding: 2rem;
+}
+
+.merch-section h1 {
+    font-size: 2.5rem;
+    color: #e0f0ff;
+    margin-bottom: 0.5rem;
+}
+
+.merch-section p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.merch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+    align-items: start;
+}
+
+.merch-item {
+    background-color: rgba(30, 50, 90, 0.8);
+    padding: 1rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    transition: transform 0.3s;
+}
+
+.merch-item:hover {
+    transform: translateY(-5px);
+}
+
+.merch-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+}
+
+.merch-item h2 {
+    color: #a0e1ff;
+    margin: 0.5rem 0;
+}
+
+.merch-item p {
+    color: #e0f0ff;
+    font-size: 1rem;
+}
+/* =============================
+   RESPONSIVE
+============================= */
+@media (max-width: 768px) {
+    .carousel-slide img {
+        height: 250px;
+    }
+
+    .description h1 {
+        font-size: 2rem;
+    }
+
+    .description p {
+        font-size: 1rem;
+    }
+
+    nav ul li {
+        margin-right: 15px;
+    }
+
+    nav a {
+        font-size: 14px;
+    }
 }
