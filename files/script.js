@@ -102,6 +102,16 @@ app.get("/", (req, res) => {
         res.redirect("/login.html");
     }
 });
+
+//redirect /login -> /login.html
+app.get("/login", (req, res) => {
+    res.redirect("/login.html");
+});
+
+// Optional: redirect /signup -> /signup.html
+app.get("/signup", (req, res) => {
+    res.redirect("/signup.html");
+});
 // Start server
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
