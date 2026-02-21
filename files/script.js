@@ -24,9 +24,11 @@ app.use(
 // Database setup
 const db = new sqlite3.Database("./users.db");
 
-// Load schema
-const schema = fs.readFileSync("./schema.sql", "utf8");
-db.exec(schema);
+// Load schema if exists
+if (fs.existsSync("./schema.sql")) {
+    const schema = fs.readFileSync("./schema.sql", "utf8");
+    db.exec(schema);
+}
 
 // 🔐 Middleware to protect routes
 function requireAuth(req, res, next) {
@@ -41,46 +43,33 @@ function requireAuth(req, res, next) {
 // Signup
 app.post("/signup", async (req, res) => {
     const { email, password } = req.body;
-
-    if (!email || !password) {
-        return res.json({ success: false, message: "Missing fields" });
-    }
+    if (!email || !password) return res.json({ success: false, message: "Missing fields" });
 
     const hash = await bcrypt.hash(password, 10);
 
-    db.run(
-        "INSERT INTO users (email, password) VALUES (?, ?)",
-        [email, hash],
-        function (err) {
-            if (err) {
-                return res.json({ success: false, message: "User exists" });
-            }
-            req.session.userId = this.lastID;
-            res.json({ success: true });
-        }
-    );
+    db.run("INSERT INTO users (email, password) VALUES (?, ?)", [email, hash], function (err) {
+        if (err) return res.json({ success: false, message: "User already exists" });
+        req.session.userId = this.lastID;
+        res.json({ success: true });
+    });
 });
 
 // Login
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
 
-    db.get(
-        "SELECT * FROM users WHERE email = ?",
-        [email],
-        async (err, user) => {
-            if (!user) return res.json({ success: false });
+    db.get("SELECT * FROM users WHERE email = ?", [email], async (err, user) => {
+        if (err) return res.json({ success: false, message: "Database error" });
+        if (!user) return res.json({ success: false, message: "Email not found" });
 
-            const match = await bcrypt.compare(password, user.password);
-
-            if (match) {
-                req.session.userId = user.id;
-                res.json({ success: true });
-            } else {
-                res.json({ success: false });
-            }
+        const match = await bcrypt.compare(password, user.password);
+        if (match) {
+            req.session.userId = user.id;
+            res.json({ success: true });
+        } else {
+            res.json({ success: false, message: "Incorrect password" });
         }
-    );
+    });
 });
 
 // Logout
@@ -90,29 +79,25 @@ app.get("/logout", (req, res) => {
     });
 });
 
-// Protected Home Route
-app.get("/home", requireAuth, (req, res) => {
+// Protected home
+app.get("/", requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
-// Redirect root to home
-app.get("/", (req, res) => {
-    if (req.session.userId) {
-        res.redirect("/home");
-    } else {
-        res.redirect("/login.html");
-    }
+
+app.get("/home", requireAuth, (req, res) => {
+    res.redirect("/");
 });
 
-//redirect /login -> /login.html
+// Redirect /login and /signup if already logged in
 app.get("/login", (req, res) => {
-    res.redirect("/login.html");
+    if (req.session.userId) return res.redirect("/");
+    res.sendFile(path.join(__dirname, "public", "login.html"));
 });
 
-// Optional: redirect /signup -> /signup.html
 app.get("/signup", (req, res) => {
-    res.redirect("/signup.html");
+    if (req.session.userId) return res.redirect("/");
+    res.sendFile(path.join(__dirname, "public", "signup.html"));
 });
+
 // Start server
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
