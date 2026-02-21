@@ -1,10 +1,10 @@
-document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
+document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const res = await fetch("/login", {
+    const res = await fetch("/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -15,6 +15,6 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
     if (data.success) {
         window.location.href = "/home";
     } else {
-        alert("Invalid login");
+        alert(data.message || "Signup failed");
     }
 });
