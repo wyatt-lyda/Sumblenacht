@@ -1,5 +1,5 @@
-// public/js/modal.js
-const img = document.querySelector(".intro img");
+const img = document.getElementById("homeImage");
+
 const modal = document.createElement("div");
 modal.classList.add("modal");
 modal.innerHTML = `<span class="modal-close">&times;</span><img class="modal-content" src="${img.src}">`;
