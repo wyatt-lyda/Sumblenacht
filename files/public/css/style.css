@@ -318,7 +318,7 @@ footer .footer-content {
 }
 
 .history-intro .description p {
-    font-size: 1.1rem;
+    /*font-size: 1.1rem;*/
     line-height: 1.6;
     color: #f0f8ff; /* softer blue for text readability */
 }
