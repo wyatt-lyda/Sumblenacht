@@ -310,7 +310,7 @@ footer .footer-content {
     flex-shrink: 0;
 }
 .history-intro .description h1 {
-    font-size: 2rem; /* bigger than h2, smaller than default h1 */
+    /*font-size: 2rem; /* bigger than h2, smaller than default h1 */
     color: #e0f0ff;  /* light wintery blue */
     margin-bottom: 1rem;
     text-align: center;
