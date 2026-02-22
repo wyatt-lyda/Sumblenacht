@@ -299,52 +299,61 @@ footer .footer-content {
 }
 
 /* History Page - images on sides of text */
-.history-intro .history-left,
-.history-intro .history-right {
+.history-wrapper {
     display: flex;
-    flex-direction: column; /* stack images vertically */
-    gap: 2rem; /* more space between images vertically */
-    padding: 1rem 0; /* extra padding at top and bottom */
+    justify-content: center;
+    align-items: stretch; /* columns now stretch to match text height */
+    gap: 2rem;
+    padding: 2rem 1rem;
 }
 
-/* Adjust left images */
-.history-intro .history-left .history-img,
-.history-intro .history-right .history-img {
-    width: 200px; /* larger images */
-    max-width: 250px;
+/* Columns */
+.history-left,
+.history-right {
+    display: flex;
+    flex-direction: column; /* stack vertically */
+    gap: 2rem;             /* vertical space between images */
+    flex: 0 0 auto;        /* don’t shrink */
+    align-items: center;    /* center images in column */
+}
+
+/* Images */
+.history-img {
+    width: 100%;        /* fill column width */
+    max-width: 250px;   /* limit max width */
+    height: auto;       /* maintain aspect ratio */
     border-radius: 12px;
-    object-fit: cover;
+    object-fit: contain; /* show full image without cropping */
 }
 
-/* Center description */
-.history-intro .description {
+/* Description stays center */
+.description {
     flex: 1;
     max-width: 600px;
     text-align: center;
-    padding: 0 1rem; /* some horizontal padding to separate from images */
+    padding: 0 1rem;
 }
 
-/* Optional: make layout responsive for smaller screens */
+/* Responsive for mobile */
 @media (max-width: 768px) {
-    .history-intro .history-wrapper {
-        flex-direction: column; /* stack all sections vertically */
+    .history-wrapper {
+        flex-direction: column;
         align-items: center;
         gap: 2rem;
     }
 
-    .history-intro .history-left,
-    .history-intro .history-right {
-        flex-direction: row; /* small screens: images side by side */
+    .history-left,
+    .history-right {
+        flex-direction: row;
         gap: 1rem;
     }
 
-    .history-intro .history-left .history-img,
-    .history-intro .history-right .history-img {
-        width: 45%; /* smaller on mobile */
+    .history-img {
+        width: 45%;
         max-width: none;
     }
 
-    .history-intro .description {
+    .description {
         max-width: 90%;
         padding: 0;
     }
