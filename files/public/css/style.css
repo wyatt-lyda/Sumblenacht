@@ -120,11 +120,30 @@ nav .icon#welcomeUser {
 /* =============================
    CAROUSEL
 ============================= */
+.side-snowflake {
+    position: absolute;   /* sit over carousel wrapper */
+    top: 50%;             /* vertically center */
+    transform: translateY(-50%);
+    font-size: 4rem;      /* big snowflake */
+    color: #e0f0ff;       /* icy blue */
+    pointer-events: none; /* don’t block clicks */
+    z-index: 10;
+}
+
+.side-snowflake.left {
+    left: -60px;          /* distance to left of carousel */
+}
+
+.side-snowflake.right {
+    right: -60px;         /* distance to right of carousel */
+}
+
+/* Make sure carousel wrapper is positioned relative */
 .carousel-wrapper {
+    position: relative;
     display: flex;
-    justify-content: center; /* center carousel horizontally */
-    width: 100%;
-    max-width: 700px; /* increase width if needed */
+    justify-content: center;
+    align-items: center;
 }
 
 .carousel-container {
