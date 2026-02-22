@@ -5,6 +5,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'UnifrakturCook', cursive;
+    font-weight: 900; /* makes all text heavy/bold */
     /* Vibrant winter gradient: deep blue -> medium icy blue -> bright sky blue */
     background: linear-gradient(to bottom, #0d1b3f, #2a5caa, #a0d8ff);
     color: #ffffff;
