@@ -301,35 +301,42 @@ footer .footer-content {
 /* History Page - images on sides of text */
 .history-intro .history-wrapper {
     display: flex;
-    align-items: flex-start; /* align images to top of text for better visual balance */
     justify-content: center;
-    gap: 2.5rem; /* a bit more space between images and text */
-    flex-wrap: wrap; /* responsive wrap for small screens */
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
     padding: 2rem 1rem;
 }
 
-.history-intro .history-wrapper .history-img {
-    width: 30%; /* make left image bigger */
-    max-width: 300px; /* prevent it from being too huge on large screens */
+/* Wrap left and right images in their own columns */
+.history-intro .history-left,
+.history-intro .history-right {
+    display: flex;
+    flex-direction: column; /* stack images vertically */
+    gap: 1rem;
+}
+
+/* Adjust left images */
+.history-intro .history-left .history-img {
+    width: 150px; /* adjust size as needed */
+    max-width: 200px;
     border-radius: 12px;
     object-fit: cover;
 }
 
-.history-intro .history-wrapper .history-img.left {
-    flex-shrink: 0; /* ensure left image doesn't shrink too much */
+/* Adjust right images */
+.history-intro .history-right .history-img {
+    width: 150px;
+    max-width: 200px;
+    border-radius: 12px;
+    object-fit: cover;
 }
 
-.history-intro .history-wrapper .description {
-    flex: 1; /* description takes available space */
+/* Description remains centered */
+.history-intro .description {
+    flex: 1;
     max-width: 600px;
     text-align: center;
-}
-
-/* Optional: right image slightly smaller than left for balance */
-.history-intro .history-wrapper .history-img.right {
-    width: 25%;
-    max-width: 250px;
-    flex-shrink: 0;
 }
 .history-intro .description h1 {
     /*font-size: 2rem; /* bigger than h2, smaller than default h1 */
@@ -343,17 +350,7 @@ footer .footer-content {
     line-height: 1.6;
     color: #f0f8ff; /* softer blue for text readability */
 }
-.history-intro .history-wrapper.second-row {
-    justify-content: center; /* center the two images */
-    gap: 2rem;
-    margin-top: 2rem; /* space from first row */
-}
 
-.history-intro .history-wrapper.second-row .history-img {
-    width: 25%;
-    max-width: 250px;
-    border-radius: 12px;
-}
 /* Responsive layout for mobile */
 @media (max-width: 768px) {
     .history-intro .history-wrapper {
