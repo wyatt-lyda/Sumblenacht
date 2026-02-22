@@ -299,44 +299,55 @@ footer .footer-content {
 }
 
 /* History Page - images on sides of text */
-.history-intro .history-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 2rem;
-    flex-wrap: wrap;
-    padding: 2rem 1rem;
-}
-
-/* Wrap left and right images in their own columns */
 .history-intro .history-left,
 .history-intro .history-right {
     display: flex;
     flex-direction: column; /* stack images vertically */
-    gap: 1rem;
+    gap: 2rem; /* more space between images vertically */
+    padding: 1rem 0; /* extra padding at top and bottom */
 }
 
 /* Adjust left images */
-.history-intro .history-left .history-img {
-    width: 150px; /* adjust size as needed */
-    max-width: 200px;
-    border-radius: 12px;
-    object-fit: cover;
-}
-
-/* Adjust right images */
+.history-intro .history-left .history-img,
 .history-intro .history-right .history-img {
-    width: 150px;
-    max-width: 200px;
+    width: 200px; /* larger images */
+    max-width: 250px;
     border-radius: 12px;
     object-fit: cover;
 }
 
-/* Description remains centered */
+/* Center description */
 .history-intro .description {
     flex: 1;
     max-width: 600px;
     text-align: center;
+    padding: 0 1rem; /* some horizontal padding to separate from images */
+}
+
+/* Optional: make layout responsive for smaller screens */
+@media (max-width: 768px) {
+    .history-intro .history-wrapper {
+        flex-direction: column; /* stack all sections vertically */
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .history-intro .history-left,
+    .history-intro .history-right {
+        flex-direction: row; /* small screens: images side by side */
+        gap: 1rem;
+    }
+
+    .history-intro .history-left .history-img,
+    .history-intro .history-right .history-img {
+        width: 45%; /* smaller on mobile */
+        max-width: none;
+    }
+
+    .history-intro .description {
+        max-width: 90%;
+        padding: 0;
+    }
 }
 .history-intro .description h1 {
     /*font-size: 2rem; /* bigger than h2, smaller than default h1 */
