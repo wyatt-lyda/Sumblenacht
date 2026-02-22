@@ -108,6 +108,7 @@ nav .icon#welcomeUser {
     background-color: #3a78b1;
     color: #ffffff;
     font-size: 1rem;
+    font-family: 'UnifrakturCook', cursive;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s;
